@@ -6,3 +6,30 @@ Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+```
+account-book-inter-assignment
+├─ .gitignore
+├─ LICENSE
+├─ README.md
+├─ index.html
+├─ package.json
+├─ public
+│  └─ vite.svg
+├─ src
+│  ├─ App.jsx
+│  ├─ components
+│  │  ├─ AccountForm.jsx
+│  │  ├─ AccountList.jsx
+│  │  ├─ AccountMonthly.jsx
+│  │  └─ GlobalStyle.jsx
+│  ├─ main.jsx
+│  ├─ pages
+│  │  ├─ AccountDetail.jsx
+│  │  └─ AccountHome.jsx
+│  └─ shared
+│     └─ Router.jsx
+├─ vite.config.js
+└─ yarn.lock
+
+```
