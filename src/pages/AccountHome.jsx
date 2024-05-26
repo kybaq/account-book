@@ -8,8 +8,8 @@ const Stsection = styled.section`
   margin: 40px;
 `;
 
-function AccountHome() {
-  // 여기에 정의해둔 것들을 Router.jsx 에서 정의한뒤 props drilling 하는 방향으로 바꾸기.
+function AccountHome({ filteredMonth, setFilteredMonth }) {
+  // localStorage 어떻게 이용할지 고민.
   const initialState = [
     {
       id: "25600f72-56b4-41a7-a9c2-47358580e2f1",
@@ -62,9 +62,11 @@ function AccountHome() {
         "자율주행차량 운전주행모드 자동 전환용 인식률 90% 이상의 다중 센서 기반 운전자 상태 인식 및 상황 인식 원천 기술 개발",
     },
   ];
+
   const [totalExpenses, setTotalExpenses] = useState(initialState);
-  const [filteredMonth, setFilteredMonth] = useState(initialState);
+
   // 전체 가계부 정보를 갖는 State
+
   return (
     <Stsection>
       <AccountForm setTotalExpenses={setTotalExpenses} />
