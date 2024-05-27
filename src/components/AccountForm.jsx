@@ -61,11 +61,7 @@ function AccountForm({ setTotalExpenses }) {
           value={date}
           onChange={(evt) => setDate(evt.target.value)}
         />
-        <Select
-          defaultValue={category}
-          onChange={setCategory}
-          options={options}
-        />
+        <Select value={category} onChange={setCategory} options={options} />
         <input
           type="number"
           placeholder="금액"

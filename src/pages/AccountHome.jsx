@@ -8,9 +8,9 @@ const Stsection = styled.section`
   margin: 40px;
 `;
 
-function AccountHome({ filteredMonth, setFilteredMonth }) {
+function AccountHome() {
   // localStorage 어떻게 이용할지 고민.
-  const initialState = [
+  const fakeDate = [
     {
       id: "25600f72-56b4-41a7-a9c2-47358580e2f1",
       date: "2024-01-05",
@@ -63,9 +63,18 @@ function AccountHome({ filteredMonth, setFilteredMonth }) {
     },
   ];
 
-  const [totalExpenses, setTotalExpenses] = useState(initialState);
+  const totalExpensesFromLocal = JSON.parse(
+    window.localStorage.getItem("totalExpenses")
+  );
+  const initialState = totalExpensesFromLocal
+    ? totalExpensesFromLocal
+    : fakeDate;
 
+  const [totalExpenses, setTotalExpenses] = useState(initialState);
+  const [filteredMonth, setFilteredMonth] = useState([]);
   // 전체 가계부 정보를 갖는 State
+
+  window.localStorage.setItem("totalExpenses", JSON.stringify(initialState));
 
   return (
     <Stsection>

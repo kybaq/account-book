@@ -5,29 +5,12 @@ import AccountHome from "../pages/AccountHome";
 import AccountDetail from "../pages/AccountDetail";
 
 function Router() {
-  const [filteredMonth, setFilteredMonth] = useState([]);
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <AccountHome
-              filteredMonth={filteredMonth}
-              setFilteredMonth={setFilteredMonth}
-            />
-          }
-        />
-        <Route
-          path="detail/:id"
-          element={
-            <AccountDetail
-              filteredMonth={filteredMonth}
-              setFilteredMonth={setFilteredMonth}
-            />
-          }
-        />
+        <Route path="/" element={<AccountHome />} />
+        <Route path="detail/:id" element={<AccountDetail />} />
         {/* <Route /> */}
       </Routes>
     </BrowserRouter>

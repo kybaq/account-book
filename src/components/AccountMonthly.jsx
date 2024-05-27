@@ -24,11 +24,19 @@ const Stitem = styled.button`
   }
 `;
 
-function AccountMonthly({ totalExpenses, filteredMonth, setFilteredMonth }) {
+function AccountMonthly({
+  /* totalExpenses ,*/ filteredMonth,
+  setFilteredMonth,
+}) {
   const months = Array.from({ length: 12 }, (v, i) => `${i + 1}월`);
   // 그냥 1월부터 12월 배열로 직접 쓰는 거랑 비슷한듯...?
 
   const [activeIndex, setAcitveIndex] = useState(0);
+
+  // 손쉽게 데이터 수정 / 삭제 작업을 하기 위해서
+  const totalExpenses = JSON.parse(
+    window.localStorage.getItem("totalExpenses")
+  );
 
   const changeMonth = () => {
     setFilteredMonth(() =>

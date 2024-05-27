@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import Swal from "sweetalert2";
 import Select from "react-select";
+import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const options = [
@@ -9,7 +10,7 @@ const options = [
   { value: "생활비", label: "생활비" },
 ];
 
-function AccountDetail({ filteredMonth, setFilteredMonth }) {
+function AccountDetail() {
   // fillteredMonth 를 받아 id 비교를 해서 해당 expense 의 내용을 수정 / 삭제 가능하도록!
 
   const location = useLocation();
@@ -19,26 +20,59 @@ function AccountDetail({ filteredMonth, setFilteredMonth }) {
 
   console.log(id);
 
-  const selectedExpense = filteredMonth.filter((expense) => expense.id === id);
+  // NOTE:지금은 데이터 크기가 작아서 전체 목록에서 찾아도 문제 없겠지만, 사실은 filteredExpense 에서 내용을 가져오도록 해야 약간이나마 효율적일듯
+  const totalExpenses = JSON.parse(
+    window.localStorage.getItem("totalExpenses")
+  );
+  // localstorage 에서 데이터 받아오도록
 
-  console.log(selectedExpense);
-
-  // selectedExpense 를 수정하는 코드
-
-  const dateRef = useRef();
-  const categoryRef = useRef();
-  const billRef = useRef();
-  const descriptiontRef = useRef();
+  const dateRef = useRef(null);
+  const categoryRef = useRef(null);
+  const billRef = useRef(null);
+  const descriptiontRef = useRef(null);
 
   const onHandleDetailFormSubmit = (evt) => {
     evt.preventDefault();
 
-    nextExpense = {};
+    if (
+      !dateRef.current ||
+      !categoryRef.current ||
+      !billRef.current ||
+      !descriptiontRef.current
+    ) {
+      Swal.fire({
+        title: "오류",
+        text: "빈 칸을 모두 채워주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+      });
+      return;
+    }
 
-    // Ref 값으로 기존 값을 대체해서 setState로 저장하면 됨.
+    const nextExpense = {
+      id,
+      date: dateRef.current,
+      category: categoryRef.current.props.value.value, // 외부 라이브러리를 통해서 그런지 조금 복잡해졌다..
+      bill: billRef.current,
+      description: descriptiontRef.current,
+    };
+
+    console.log(
+      `수정: ${nextExpense.date} ${nextExpense.category} ${nextExpense.bill} ${nextExpense.description}`
+    );
+
+    totalExpenses.forEach((expense) => {
+      if (expense.id === id) {
+        expense.date = nextExpense.date;
+        expense.category = nextExpense.category;
+        expense.bill = nextExpense.bill;
+        expense.description = nextExpense.description;
+      }
+    });
+
+    // Ref 값으로 기존 값을 대체해서 localStorage 에 올림.
+    window.localStorage.setItem("totalExpenses", JSON.stringify(totalExpenses));
   };
-
-  // setFilteredMonth((prev) => [...prev, selectedExpense]);
 
   return (
     <section>
@@ -48,12 +82,7 @@ function AccountDetail({ filteredMonth, setFilteredMonth }) {
           ref={dateRef}
           onChange={(evt) => (dateRef.current = evt.target.value)}
         />
-        <Select
-          // defaultValue={category}
-          options={options}
-          ref={categoryRef}
-          onChange={(evt) => (categoryRef.current = evt.target.value)}
-        />
+        <Select options={options} ref={categoryRef} />
         <input
           type="number"
           placeholder="금액"
@@ -68,9 +97,9 @@ function AccountDetail({ filteredMonth, setFilteredMonth }) {
         />
         <button type="submit">저장</button>
         <button type="submit">삭제</button>
-        <Link>뒤로가기</Link>
-        {/* history 써서 뒤로 돌아가면 될듯 */}
       </form>
+      <Link to="/">뒤로가기</Link>
+      {/* history 써서 뒤로 돌아가면 될듯 */}
     </section>
   );
 }
