@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AccountList from "./AccountList";
+import { useContext } from "react";
+import { AccountContext } from "../contexts/AccountContext";
 
 const StmonthContainer = styled.div`
   display: grid;
@@ -24,24 +26,28 @@ const Stitem = styled.button`
   }
 `;
 
-function AccountMonthly({
-  /* totalExpenses ,*/ filteredMonth,
-  setFilteredMonth,
-}) {
+function AccountMonthly({}) {
   const months = Array.from({ length: 12 }, (v, i) => `${i + 1}월`);
   // 그냥 1월부터 12월 배열로 직접 쓰는 거랑 비슷한듯...?
+
+  const context = useContext(AccountContext);
+
+  console.log(context);
+
+  const { totalExpenses, setTotalExpenses, filteredMonth, setFilteredMonth } =
+    context;
 
   const [activeIndex, setAcitveIndex] = useState(0);
 
   // 손쉽게 데이터 수정 / 삭제 작업을 하기 위해서
-  const totalExpenses = JSON.parse(
-    window.localStorage.getItem("totalExpenses")
-  );
+  // const totalExpenses = JSON.parse(
+  //   window.localStorage.getItem("totalExpenses")
+  // );
 
   const changeMonth = () => {
     setFilteredMonth(() =>
       totalExpenses.filter(
-        (expense) => Number(expense.date.split("-")[1]) == activeIndex + 1
+        (expense) => Number(expense.date.split("-")[1]) == activeIndex + 1 // 지출내역 date 의 Month 가 선택한 것과 일치하는 것만 골라냄
       )
     );
   };
@@ -62,12 +68,7 @@ function AccountMonthly({
           </Stitem>
         ))}
       </StmonthContainer>
-      <AccountList
-        // totalExpenses={totalExpenses}
-        filteredMonth={filteredMonth}
-        setFilteredMonth={setFilteredMonth}
-        // 지출 상세 페이지(AccountDetail) 에서 사용하기 위함.
-      />
+      <AccountList />
     </>
   );
 }

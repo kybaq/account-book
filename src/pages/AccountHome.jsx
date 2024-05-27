@@ -3,6 +3,7 @@ import AccountForm from "../components/AccountForm";
 import AccountMonthly from "../components/AccountMonthly";
 import { useState } from "react";
 import styled from "styled-components";
+import { AccountContext } from "../contexts/AccountContext";
 
 const Stsection = styled.section`
   margin: 40px;
@@ -78,12 +79,17 @@ function AccountHome() {
 
   return (
     <Stsection>
-      <AccountForm setTotalExpenses={setTotalExpenses} />
-      <AccountMonthly
-        totalExpenses={totalExpenses}
-        filteredMonth={filteredMonth}
-        setFilteredMonth={setFilteredMonth}
-      />
+      <AccountContext.Provider
+        value={{
+          totalExpenses,
+          setTotalExpenses,
+          filteredMonth,
+          setFilteredMonth,
+        }}
+      >
+        <AccountForm />
+        <AccountMonthly />
+      </AccountContext.Provider>
     </Stsection>
   );
 }

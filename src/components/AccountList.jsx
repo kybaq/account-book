@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { AccountContext } from "../contexts/AccountContext";
 
 const Stul = styled.ul`
   background-color: white;
@@ -58,7 +59,11 @@ const Stp = styled.p`
   -webkit-line-clamp: 1;
 `;
 
-function AccountList({ filteredMonth }) {
+function AccountList() {
+  const context = useContext(AccountContext);
+
+  const { filteredMonth } = context;
+
   return (
     <Stul>
       {filteredMonth.map((expense) => (
