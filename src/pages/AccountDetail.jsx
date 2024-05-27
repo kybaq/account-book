@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import Select from "react-select";
 import React, { useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const options = [
   { value: "식비", label: "식비" },
