@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
@@ -7,13 +6,6 @@ import styled from "styled-components";
 const Stsection = styled.section`
   margin: 10px;
 `;
-
-const options = [
-  { value: "식비", label: "식비" },
-  { value: "교통", label: "교통" },
-  { value: "취미/여가", label: "취미/여가" },
-  { value: "생활비", label: "생활비" },
-];
 
 function AccountForm({ setTotalExpenses }) {
   // 제어 컴포넌트
@@ -86,7 +78,16 @@ function AccountForm({ setTotalExpenses }) {
           value={date}
           onChange={(evt) => setDate(evt.target.value)}
         />
-        <Select value={category} onChange={setCategory} options={options} />
+        <select
+          name="selectedCategory"
+          value={category}
+          onChange={(evt) => setCategory(evt.target.value)}
+        >
+          <option value="식비">식비</option>
+          <option value="교통">교통</option>
+          <option value="취미/여가">취미/여가</option>
+          <option value="생활비">생활비</option>
+        </select>
         <input
           type="number"
           placeholder="금액"
