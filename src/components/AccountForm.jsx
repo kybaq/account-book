@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
@@ -36,6 +36,15 @@ function AccountForm({ setTotalExpenses }) {
       });
       return;
     }
+    if (isNaN(bill) || bill <= 0) {
+      Swal.fire({
+        title: "오류",
+        text: "금액은 양수여야 합니다.",
+        icon: "warning",
+        confirmButtonText: "확인",
+      });
+      return;
+    }
 
     const nextExpense = {
       id: uuidv4(),
@@ -46,12 +55,28 @@ function AccountForm({ setTotalExpenses }) {
     };
     // console.log(nextExpense);
 
-    setTotalExpenses((prevExpense) => [...prevExpense, nextExpense]);
+    setTotalExpenses((prevExpenses) => {
+      const updatedExpenses = [...prevExpenses, nextExpense];
+      window.localStorage.setItem(
+        "totalExpenses",
+        JSON.stringify(updatedExpenses)
+      );
+      return updatedExpenses;
+    });
     setDate("");
     setBill("");
     setCategory(null);
     setDescription("");
   };
+
+  useEffect(() => {
+    const savedExpenses = JSON.parse(
+      window.localStorage.getItem("totalExpenses")
+    );
+    if (savedExpenses) {
+      setTotalExpenses(savedExpenses);
+    }
+  }, [setTotalExpenses]);
 
   return (
     <Stsection>
