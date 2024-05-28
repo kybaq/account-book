@@ -11,7 +11,7 @@ function AccountForm({ setTotalExpenses }) {
   // 제어 컴포넌트
   const [date, setDate] = useState("");
   const [bill, setBill] = useState("");
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("식비");
   // Select tag 의 값을 받는 상태.
   const [description, setDescription] = useState("");
   // AccountHome 이 전체 소비 목록을 갖도록 설정하자.
@@ -42,7 +42,7 @@ function AccountForm({ setTotalExpenses }) {
       id: uuidv4(),
       date,
       bill,
-      category: category.value, // category 객체 속 value 임.
+      category: category, // category 객체 속 value 임.
       description,
     };
     // console.log(nextExpense);
@@ -57,7 +57,7 @@ function AccountForm({ setTotalExpenses }) {
     });
     setDate("");
     setBill("");
-    setCategory(null);
+    setCategory("식비");
     setDescription("");
   };
 
