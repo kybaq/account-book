@@ -74,7 +74,7 @@ function AccountHome() {
   const [filteredMonth, setFilteredMonth] = useState([]);
   // 전체 가계부 정보를 갖는 State
 
-  window.localStorage.setItem("totalExpenses", JSON.stringify(initialState));
+  // window.localStorage.setItem("totalExpenses", JSON.stringify(initialState));
 
   return (
     <Stsection>
