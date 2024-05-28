@@ -32,8 +32,6 @@ function AccountMonthly({}) {
 
   const context = useContext(AccountContext);
 
-  console.log(context);
-
   const { totalExpenses, setTotalExpenses, filteredMonth, setFilteredMonth } =
     context;
 
