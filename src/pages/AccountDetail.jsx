@@ -11,14 +11,10 @@ const options = [
 ];
 
 function AccountDetail() {
-  // fillteredMonth 를 받아 id 비교를 해서 해당 expense 의 내용을 수정 / 삭제 가능하도록!
-
   const location = useLocation();
 
   const path = location.pathname.split("/");
   const id = path[path.length - 1];
-
-  console.log(id);
 
   // NOTE:지금은 데이터 크기가 작아서 전체 목록에서 찾아도 문제 없겠지만, 사실은 filteredExpense 에서 내용을 가져오도록 해야 약간이나마 효율적일듯
   const totalExpenses = JSON.parse(

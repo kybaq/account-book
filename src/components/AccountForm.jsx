@@ -3,6 +3,8 @@ import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { addExpense } from "../redux/slices/accountSlice";
 
 const Stsection = styled.section`
   margin: 10px;
@@ -15,14 +17,15 @@ const options = [
   { value: "생활비", label: "생활비" },
 ];
 
-function AccountForm({ setTotalExpenses }) {
+function AccountForm() {
   // 제어 컴포넌트
   const [date, setDate] = useState("");
   const [bill, setBill] = useState("");
   const [category, setCategory] = useState(null);
   // Select tag 의 값을 받는 상태.
   const [description, setDescription] = useState("");
-  // AccountHome 이 전체 소비 목록을 갖도록 설정하자.
+
+  const dispatch = useDispatch();
 
   const onAccountFormSubmit = (evt) => {
     evt.preventDefault();
@@ -46,7 +49,11 @@ function AccountForm({ setTotalExpenses }) {
     };
     // console.log(nextExpense);
 
-    setTotalExpenses((prevExpense) => [...prevExpense, nextExpense]);
+    // setTotalExpenses((prevExpense) => [...prevExpense, nextExpense]);
+    // window.localStorage.setItem("totalExpenses", JSON.stringify(totalExpenses));
+
+    dispatch(addExpense(nextExpense));
+
     setDate("");
     setBill("");
     setCategory(null);

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AccountList from "./AccountList";
 import { useContext } from "react";
 import { AccountContext } from "../contexts/AccountContext";
+import { useSelector } from "react-redux";
 
 const StmonthContainer = styled.div`
   display: grid;
@@ -30,19 +31,24 @@ function AccountMonthly({}) {
   const months = Array.from({ length: 12 }, (v, i) => `${i + 1}월`);
   // 그냥 1월부터 12월 배열로 직접 쓰는 거랑 비슷한듯...?
 
-  const context = useContext(AccountContext);
+  // const context = useContext(AccountContext);
 
-  console.log(context);
+  // console.log(context);
 
-  const { totalExpenses, setTotalExpenses, filteredMonth, setFilteredMonth } =
-    context;
-
-  const [activeIndex, setAcitveIndex] = useState(0);
+  // const { totalExpenses, setTotalExpenses, filteredMonth, setFilteredMonth } =
+  //   context;
 
   // 손쉽게 데이터 수정 / 삭제 작업을 하기 위해서
-  // const totalExpenses = JSON.parse(
-  //   window.localStorage.getItem("totalExpenses")
-  // );
+  const totalExpenses = JSON.parse(
+    window.localStorage.getItem("totalExpenses")
+  );
+
+  // const totalExpenses = useSelector((state) => state.totalExpenses); // NOTE:  변경사항 새로고침 없이 적용하려면 store 에서 불러올 필요가 없어보임....
+  // console.log(totalExpenses);
+
+  const [filteredMonth, setFilteredMonth] = useState([]); // props drilling 사용할 것임
+
+  const [activeIndex, setAcitveIndex] = useState(0);
 
   const changeMonth = () => {
     setFilteredMonth(() =>
@@ -68,7 +74,7 @@ function AccountMonthly({}) {
           </Stitem>
         ))}
       </StmonthContainer>
-      <AccountList />
+      <AccountList filteredMonth={filteredMonth} />
     </>
   );
 }
