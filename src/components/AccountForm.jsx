@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
@@ -33,22 +33,48 @@ function AccountForm() {
       });
       return;
     }
+    if (isNaN(bill) || bill <= 0) {
+      Swal.fire({
+        title: "오류",
+        text: "금액은 양수여야 합니다.",
+        icon: "warning",
+        confirmButtonText: "확인",
+      });
+      return;
+    }
 
     const nextExpense = {
       id: uuidv4(),
       date,
-      bill: Number(bill),
+      bill,
       category: category,
       description,
     };
     // console.log(nextExpense);
 
-    setTotalExpenses((prevExpense) => [...prevExpense, nextExpense]);
+    setTotalExpenses((prevExpenses) => {
+      const updatedExpenses = [...prevExpenses, nextExpense];
+      window.localStorage.setItem(
+        "totalExpenses",
+        JSON.stringify(updatedExpenses)
+      );
+      return updatedExpenses;
+    });
     setDate("");
     setBill("");
     setCategory("식비");
     setDescription("");
   };
+
+  // state 와 localstorage 동기화, setTotalExpense 로 변경 하게되면 발생함.
+  useEffect(() => {
+    const savedExpenses = JSON.parse(
+      window.localStorage.getItem("totalExpenses")
+    );
+    if (savedExpenses) {
+      setTotalExpenses(savedExpenses);
+    }
+  }, [setTotalExpenses]);
 
   return (
     <Stsection>

@@ -16,10 +16,10 @@ function AccountDetail() {
   );
   // localstorage 에서 데이터 받아오도록
 
-  const dateRef = useRef(null);
-  const categoryRef = useRef(null);
-  const billRef = useRef(null);
-  const descriptiontRef = useRef(null);
+  const dateRef = useRef();
+  const categoryRef = useRef();
+  const billRef = useRef();
+  const descriptiontRef = useRef();
 
   const onHandleSaveBtn = (id) => {
     if (
@@ -36,7 +36,7 @@ function AccountDetail() {
       });
       return;
     }
-    if (isNaN(bill) || bill <= 0) {
+    if (isNaN(billRef.current) || billRef.current <= 0) {
       Swal.fire({
         title: "오류",
         text: "금액은 양수여야 합니다.",
@@ -54,9 +54,7 @@ function AccountDetail() {
       description: descriptiontRef.current,
     };
 
-    console.log(
-      `수정: ${nextExpense.date} ${nextExpense.category} ${nextExpense.bill} ${nextExpense.description}`
-    );
+    console.log(nextExpense);
 
     totalExpenses.map((expense) =>
       expense.id === id ? { ...expense, ...nextExpense } : expense
