@@ -1,28 +1,25 @@
-import React, { useState } from "react";
-import Select from "react-select";
+import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import { AccountContext } from "../contexts/AccountContext";
 
 const Stsection = styled.section`
   margin: 10px;
 `;
 
-const options = [
-  { value: "식비", label: "식비" },
-  { value: "교통", label: "교통" },
-  { value: "취미/여가", label: "취미/여가" },
-  { value: "생활비", label: "생활비" },
-];
-
-function AccountForm({ setTotalExpenses }) {
+function AccountForm() {
   // 제어 컴포넌트
   const [date, setDate] = useState("");
   const [bill, setBill] = useState("");
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("식비");
   // Select tag 의 값을 받는 상태.
   const [description, setDescription] = useState("");
   // AccountHome 이 전체 소비 목록을 갖도록 설정하자.
+
+  const context = useContext(AccountContext);
+
+  const { setTotalExpenses } = context;
 
   const onAccountFormSubmit = (evt) => {
     evt.preventDefault();
@@ -40,8 +37,8 @@ function AccountForm({ setTotalExpenses }) {
     const nextExpense = {
       id: uuidv4(),
       date,
-      bill,
-      category: category.value, // category 객체 속 value 임.
+      bill: Number(bill),
+      category: category,
       description,
     };
     // console.log(nextExpense);
@@ -49,7 +46,7 @@ function AccountForm({ setTotalExpenses }) {
     setTotalExpenses((prevExpense) => [...prevExpense, nextExpense]);
     setDate("");
     setBill("");
-    setCategory(null);
+    setCategory("식비");
     setDescription("");
   };
 
@@ -61,7 +58,16 @@ function AccountForm({ setTotalExpenses }) {
           value={date}
           onChange={(evt) => setDate(evt.target.value)}
         />
-        <Select value={category} onChange={setCategory} options={options} />
+        <select
+          name="selectedCategory"
+          value={category}
+          onChange={(evt) => setCategory(evt.target.value)}
+        >
+          <option value="식비">식비</option>
+          <option value="교통">교통</option>
+          <option value="취미/여가">취미/여가</option>
+          <option value="생활비">생활비</option>
+        </select>
         <input
           type="number"
           placeholder="금액"
