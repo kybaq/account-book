@@ -1,14 +1,6 @@
 import Swal from "sweetalert2";
-import Select from "react-select";
 import React, { useRef } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-
-const options = [
-  { value: "식비", label: "식비" },
-  { value: "교통", label: "교통" },
-  { value: "취미/여가", label: "취미/여가" },
-  { value: "생활비", label: "생활비" },
-];
 
 function AccountDetail() {
   const location = useLocation();
@@ -48,7 +40,7 @@ function AccountDetail() {
     const nextExpense = {
       id,
       date: dateRef.current,
-      category: categoryRef.current.props.value.value, // 외부 라이브러리를 통해서 그런지 조금 복잡해졌다..
+      category: categoryRef.current,
       bill: billRef.current,
       description: descriptiontRef.current,
     };
@@ -78,7 +70,16 @@ function AccountDetail() {
           ref={dateRef}
           onChange={(evt) => (dateRef.current = evt.target.value)}
         />
-        <Select options={options} ref={categoryRef} />
+        <select
+          name="selectedCategory"
+          ref={categoryRef}
+          onChange={(evt) => (categoryRef.current = evt.target.value)}
+        >
+          <option value="식비">식비</option>
+          <option value="교통">교통</option>
+          <option value="취미/여가">취미/여가</option>
+          <option value="생활비">생활비</option>
+        </select>
         <input
           type="number"
           placeholder="금액"
