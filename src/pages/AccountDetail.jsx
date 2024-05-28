@@ -6,6 +6,7 @@ function AccountDetail() {
   // fillteredMonth 를 받아 id 비교를 해서 해당 expense 의 내용을 수정 / 삭제 가능하도록!
 
   const location = useLocation();
+  console.log(location);
 
   const path = location.pathname.split("/");
   const id = path[path.length - 1];
@@ -16,10 +17,10 @@ function AccountDetail() {
   );
   // localstorage 에서 데이터 받아오도록
 
-  const dateRef = useRef(null);
-  const categoryRef = useRef(null);
-  const billRef = useRef(null);
-  const descriptiontRef = useRef(null);
+  const dateRef = useRef(location.state.expense.date);
+  const categoryRef = useRef(location.state.expense.category);
+  const billRef = useRef(location.state.expense.bill);
+  const descriptiontRef = useRef(location.state.expense.description);
 
   const onHandleSaveBtn = (id) => {
     if (
@@ -36,7 +37,7 @@ function AccountDetail() {
       });
       return;
     }
-    if (isNaN(bill) || bill <= 0) {
+    if (isNaN(billRef.current) || billRef.current <= 0) {
       Swal.fire({
         title: "오류",
         text: "금액은 양수여야 합니다.",
@@ -55,10 +56,14 @@ function AccountDetail() {
     };
 
     console.log(
-      `수정: ${nextExpense.date} ${nextExpense.category} ${nextExpense.bill} ${nextExpense.description}`
+      "수정: ",
+      nextExpense.date,
+      nextExpense.category,
+      nextExpense.bill,
+      nextExpense.description
     );
 
-    totalExpenses.map((expense) =>
+    totalExpenses.forEach((expense) =>
       expense.id === id ? { ...expense, ...nextExpense } : expense
     );
     // expense 객체를 펼쳐서, nextExpense 로 내용을 바꿈.
