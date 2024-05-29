@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import { AccountContext } from "../contexts/AccountContext";
+import AccountContext from "../contexts/AccountContextProvider";
 
 const Stsection = styled.section`
   margin: 10px;

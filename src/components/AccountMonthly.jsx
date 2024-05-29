@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AccountList from "./AccountList";
 import { useContext } from "react";
-import { AccountContext } from "../contexts/AccountContext";
+import AccountContext from "../contexts/AccountContextProvider";
 
 const StmonthContainer = styled.div`
   display: grid;
@@ -32,8 +32,7 @@ function AccountMonthly({}) {
 
   const context = useContext(AccountContext);
 
-  const { totalExpenses, setTotalExpenses, filteredMonth, setFilteredMonth } =
-    context;
+  const { totalExpenses, setFilteredMonth } = context;
 
   const [activeIndex, setAcitveIndex] = useState(0);
 

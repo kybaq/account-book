@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { AccountContext } from "../contexts/AccountContext";
+import AccountContext from "../contexts/AccountContextProvider";
 
 const Stul = styled.ul`
   background-color: white;
