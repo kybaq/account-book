@@ -61,6 +61,7 @@ const Stp = styled.p`
 function AccountList({ filteredMonth }) {
   return (
     <Stul>
+      {/* ListItem.jsx 로 분리해도 좋을듯함 */}
       {filteredMonth.map((expense) => (
         <Link
           key={expense.id}
