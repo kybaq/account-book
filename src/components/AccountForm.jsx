@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { addExpense } from "../redux/slices/accountSlice";
+import { addExpense } from "../redux/slices/expenseSlice";
 
 const Stsection = styled.section`
   margin: 10px;

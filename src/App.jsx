@@ -1,5 +1,7 @@
 import React from "react";
 import Router from "./shared/Router";
+import { Provider } from "react-redux";
+import store from "./redux/config/configStore";
 
 // - [o] TODO: 지출 CRUD 구현
 // - [o] TODOL 월별로 지출 조회 가능해야함
@@ -12,7 +14,11 @@ import Router from "./shared/Router";
 // NOTE: useState, useEffect, useRef 사용
 
 function App() {
-  return <Router />;
+  return (
+    <Provider store={store}>
+      <Router />;
+    </Provider>
+  );
 }
 
 export default App;
