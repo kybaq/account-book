@@ -12,10 +12,8 @@ function AccountForm() {
   // 제어 컴포넌트
   const [date, setDate] = useState("");
   const [bill, setBill] = useState("");
-  const [category, setCategory] = useState("식비");
-  // Select tag 의 값을 받는 상태.
+  const [category, setCategory] = useState("식비"); // select tag 의 값을 받는 상태.
   const [description, setDescription] = useState("");
-  // AccountHome 이 전체 소비 목록을 갖도록 설정하자.
 
   const context = useContext(AccountContext);
 
@@ -46,14 +44,15 @@ function AccountForm() {
     const nextExpense = {
       id: uuidv4(),
       date,
-      bill,
-      category: category,
+      bill: Number(bill),
+      category,
       description,
     };
     // console.log(nextExpense);
 
+    // 이전 상태 + 새 지출 내역
     setTotalExpenses((prevExpenses) => {
-      const updatedExpenses = [...prevExpenses, nextExpense];
+      const updatedExpenses = [...prevExpenses, nextExpense]; // localstorage 에도 저장해서 휘발성을 없앰.
       window.localStorage.setItem(
         "totalExpenses",
         JSON.stringify(updatedExpenses)
