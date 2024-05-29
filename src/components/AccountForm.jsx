@@ -11,10 +11,8 @@ function AccountForm({ setTotalExpenses }) {
   // 제어 컴포넌트
   const [date, setDate] = useState("");
   const [bill, setBill] = useState("");
-  const [category, setCategory] = useState("식비");
-  // Select tag 의 값을 받는 상태.
+  const [category, setCategory] = useState("식비"); // select tag 의 값을 받는 상태.
   const [description, setDescription] = useState("");
-  // AccountHome 이 전체 소비 목록을 갖도록 설정하자.
 
   const onAccountFormSubmit = (evt) => {
     evt.preventDefault();
@@ -29,6 +27,7 @@ function AccountForm({ setTotalExpenses }) {
       return;
     }
     if (isNaN(bill) || bill <= 0) {
+      // 예외처리 추가
       Swal.fire({
         title: "오류",
         text: "금액은 양수여야 합니다.",
@@ -41,14 +40,15 @@ function AccountForm({ setTotalExpenses }) {
     const nextExpense = {
       id: uuidv4(),
       date,
-      bill,
-      category: category, // category 객체 속 value 임.
+      bill: Number(bill),
+      category,
       description,
     };
     // console.log(nextExpense);
 
+    // 이전 상태 + 새 지출 내역
     setTotalExpenses((prevExpenses) => {
-      const updatedExpenses = [...prevExpenses, nextExpense];
+      const updatedExpenses = [...prevExpenses, nextExpense]; // localstorage 에도 저장해서 휘발성을 없앰.
       window.localStorage.setItem(
         "totalExpenses",
         JSON.stringify(updatedExpenses)
@@ -61,6 +61,8 @@ function AccountForm({ setTotalExpenses }) {
     setDescription("");
   };
 
+  // 위 코드에서 지출 내용 추가 시, 컴포넌트가 새로 마운트 될 때 localstorage 에서 다시금 불러와 state 에 반영함.
+  // setTotalExpenses 를 실행할 때에만 동기화하게 만들면, 그냥 무조건 getItem() 하는 것 보다 효율적인듯!
   useEffect(() => {
     const savedExpenses = JSON.parse(
       window.localStorage.getItem("totalExpenses")
@@ -72,7 +74,7 @@ function AccountForm({ setTotalExpenses }) {
 
   return (
     <Stsection>
-      <form action="" onSubmit={(evt) => onAccountFormSubmit(evt)}>
+      <form action="" onSubmit={onAccountFormSubmit}>
         <input
           type="date"
           value={date}
