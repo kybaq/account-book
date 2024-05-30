@@ -16,7 +16,7 @@ import store from "./redux/config/configStore";
 function App() {
   return (
     <Provider store={store}>
-      <Router />;
+      <Router />
     </Provider>
   );
 }

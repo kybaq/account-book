@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AccountList from "./AccountList";
-import { useContext } from "react";
-import { AccountContext } from "../contexts/AccountContext";
 import { useSelector } from "react-redux";
 
 const StmonthContainer = styled.div`
@@ -27,31 +25,18 @@ const Stitem = styled.button`
   }
 `;
 
-function AccountMonthly({}) {
+// 그냥 1월부터 12월 배열로 직접 쓰는 거랑 비슷한듯...?
+// props drilling 사용할 것임
+// 지출내역 date 의 Month 가 선택한 것과 일치하는 것만 골라냄
+function AccountMonthly() {
   const months = Array.from({ length: 12 }, (v, i) => `${i + 1}월`);
-  // 그냥 1월부터 12월 배열로 직접 쓰는 거랑 비슷한듯...?
+  const totalExpenses = useSelector((state) => state.totalExpenses);
 
-  // 손쉽게 데이터 수정 / 삭제 작업을 하기 위해서
-  const totalExpenses = JSON.parse(
-    window.localStorage.getItem("totalExpenses")
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const filteredMonth = totalExpenses.filter(
+    (expense) => Number(expense.date.split("-")[1]) === activeIndex + 1
   );
-
-  // const totalExpenses = useSelector((state) => state.totalExpenses); // NOTE:  변경사항 새로고침 없이 적용하려면 store 에서 불러올 필요가 없어보임....
-  // console.log(totalExpenses);
-
-  const [filteredMonth, setFilteredMonth] = useState([]); // props drilling 사용할 것임
-
-  const [activeIndex, setAcitveIndex] = useState(0);
-
-  const changeMonth = () => {
-    setFilteredMonth(() =>
-      totalExpenses.filter(
-        (expense) => Number(expense.date.split("-")[1]) == activeIndex + 1 // 지출내역 date 의 Month 가 선택한 것과 일치하는 것만 골라냄
-      )
-    );
-  };
-
-  useEffect(changeMonth, [activeIndex]);
 
   return (
     <>
@@ -60,9 +45,8 @@ function AccountMonthly({}) {
           <Stitem
             key={index}
             $active={activeIndex === index}
-            onClick={() => setAcitveIndex(index)}
+            onClick={() => setActiveIndex(index)}
           >
-            {/* 클릭했을 때, 이벤트가 발생한 것의 index 를 activeIndex 로 설정하고 리렌더링 되면서 조건에 맞으면 acitve Button 이 된다 */}
             {month}
           </Stitem>
         ))}

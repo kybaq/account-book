@@ -1,4 +1,7 @@
 // import React, { useContext } from "react";
+import { use } from "chai";
+import { useEffect } from "react";
+import { get } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 // import { AccountContext } from "../contexts/AccountContext";
@@ -60,27 +63,29 @@ const Stp = styled.p`
 `;
 
 function AccountList({ filteredMonth }) {
-  // const context = useContext(AccountContext);
-
   return (
     <Stul>
-      {filteredMonth.map((expense) => (
-        <Link
-          key={expense.id}
-          to={`/detail/${expense.id}`}
-          style={{ textDecoration: "none", color: "black" }}
-          // Styled component 적용하면, 그런거 쓰지 말라고 오류 뜸.....
-          state={{ expense }}
-        >
-          <Stli>
-            <Stdiv>
-              <Stp>{expense.date}</Stp>
-              <Stp>{`${expense.category} - ${expense.description}`}</Stp>
-            </Stdiv>
-            <span>{expense.bill} 원</span>
-          </Stli>
-        </Link>
-      ))}
+      {filteredMonth.map((expense) => {
+        // console.log(filteredMonth);
+        // console.log(expense);
+        return (
+          <Link
+            key={expense.id}
+            to={`/detail/${expense.id}`}
+            style={{ textDecoration: "none", color: "black" }}
+            // Styled component 적용하면, 그런거 쓰지 말라고 오류 뜸.....
+            state={{ expense }}
+          >
+            <Stli>
+              <Stdiv>
+                <Stp>{expense.date}</Stp>
+                <Stp>{`${expense.category} - ${expense.description}`}</Stp>
+              </Stdiv>
+              <span>{expense.bill} 원</span>
+            </Stli>
+          </Link>
+        );
+      })}
     </Stul>
   );
 }
